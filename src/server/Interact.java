@@ -1,11 +1,22 @@
 package server;
 
-public class Interact implements Runnable{
-    public Interact(){
+import java.util.Scanner;
 
+public class Interact implements Runnable{
+    private Scanner s;
+    public Interact(){
+        s = new Scanner(System.in);
     }
 
     public void run(){
-        
+        while(true){
+            String input = s.nextLine();
+
+            if(input.equals("close")){
+                Server.state = false;
+                Server.closeSocket();
+                break;
+            }
+        }
     }
 }
