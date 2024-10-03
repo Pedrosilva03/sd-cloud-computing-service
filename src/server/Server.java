@@ -15,9 +15,11 @@ public class Server {
             ss = new ServerSocket(Utils.DEFAULT_PORT);
             System.out.println("Servidor conectado em " + ss.getInetAddress().getHostAddress() + "/" + ss.getLocalPort());
             
+            // Interactions
             Thread interacter = new Thread(new Interact());
             interacter.start();
 
+            // Loop principal
             while(true){
                 Socket s = ss.accept();
 
