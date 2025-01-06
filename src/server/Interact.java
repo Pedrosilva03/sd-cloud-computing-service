@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Interact implements Runnable{
     private Scanner s;
     public Interact(){
-        s = new Scanner(System.in);
+        this.s = new Scanner(System.in);
     }
 
     public void run(){
