@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Random;
+
 public class Utils {
     // Generic utils
     public static final int DEFAULT_PORT = 1109; // Porta a que o servidor se conecta por predefinição
@@ -29,4 +31,9 @@ public class Utils {
 
     // Server utils
 
+    private static Random randomGen = new Random();
+
+    public static int generateRandomNumber(int min, int max){
+        return min + randomGen.nextInt(max - min + 1);
+    }
 }

@@ -1,0 +1,13 @@
+36283;testuser1;Password1
+32352;sample123;SecurePass
+54294;randomuser;RandomPass!
+98595;demo_account;DemoPassword
+24928;temp_user42;TempPass
+40479;user_tester;Pass1234
+28868;alpha_beta;AlphaBeta123
+82095;code_ninja;CodeNinjaPass
+18173;secret_keeper;SecretKeeper
+20749;access_granted;AccessGranted
+73221;tone;tone123
+65738;pedrinho;pedrinho123
+51508;zezinho;ze123

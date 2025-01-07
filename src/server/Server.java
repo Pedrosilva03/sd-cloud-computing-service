@@ -1,5 +1,6 @@
 package server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -14,11 +15,18 @@ public class Server {
         try {
             ss = new ServerSocket(Utils.DEFAULT_PORT);
             
+            // Specific exception to handle database problems (keep it clean)
+            try{
+                manager = new Manager("data");
+            }
+            catch(IOException e){
+                System.out.println("Error creating server's database. Closing...");
+                closeSocket();
+            }
+
             // Interactions
             Thread interacter = new Thread(new Interact());
             interacter.start();
-
-            manager = new Manager();
 
             System.out.println("Servidor conectado em " + ss.getInetAddress().getHostAddress() + "/" + ss.getLocalPort());
 
@@ -30,7 +38,7 @@ public class Server {
                 t.start();
             }
         }
-        // Exception para lidar com o fecho do servidor
+        // An exception is forced to make the server stop reading from the socket. If an exit signal was recieved, then "state" will be false and the server will know it.
         catch (IOException e) {
             if(state){
                 closeSocket();

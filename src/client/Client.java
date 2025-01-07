@@ -108,6 +108,8 @@ class Client{
             dis.close();
             dos.close();
             cs.close();
+
+            System.exit(0);
         }
         catch(IOException | NullPointerException closeException) {
             System.out.println("Error closing the client, forcing exit...");
@@ -123,8 +125,6 @@ class Client{
             loginMenu(); // The program is going to stay here until receives a signal to exit. Allows to switch accounts.
 
             closeClient();
-
-            System.exit(0);
         }
         catch(IOException e){
             System.out.println("Error conecting to the server. Closing the client...");
