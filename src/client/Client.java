@@ -18,8 +18,37 @@ class Client{
     private static boolean status;
     private static boolean menuStatus;
 
+    private static void setupLogin(String username, String password){
+    }
+
+    private static void setupSignUp(String username, String password){
+    }
+
+    private static void setupLogout(){
+    }
+
+    private static void setupExecute(){
+    }
+
     private static void mainMenu(){
-        
+        System.out.println(Utils.mainMenu);
+        menuStatus = true;
+        while(menuStatus){
+            String option = s.nextLine();
+
+            if(option.equals("1")){
+                setupExecute();
+            }
+            else if(option.equals("2")){
+                setupLogout();
+                menuStatus = false;
+            }
+            else{
+                setupLogout();
+                menuStatus = false;
+                status = false;
+            }
+        }
     }
 
     private static void introMenu(){
@@ -91,15 +120,17 @@ class Client{
             cs = new Socket("localhost", Utils.DEFAULT_PORT);
             initClient();
 
-            loginMenu(); // The program is going to stay here untill receives a signal to exit. Allows to switch accounts.
+            loginMenu(); // The program is going to stay here until receives a signal to exit. Allows to switch accounts.
 
             closeClient();
+
+            System.exit(0);
         }
         catch(IOException e){
             System.out.println("Error conecting to the server. Closing the client...");
             closeClient();
 
-            System.exit(0);
+            System.exit(1);
         }
     }
 }

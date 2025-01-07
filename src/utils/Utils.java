@@ -20,6 +20,13 @@ public class Utils {
                 3- Exit
                 """;
 
+    public static final String mainMenu = """
+    Login menu
+    1- Execute program
+    2- Logout
+    3- Exit
+    """;
+
     // Server utils
 
 }
