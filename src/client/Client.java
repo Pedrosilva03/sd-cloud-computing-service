@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import utils.Utils;
+import utils.Messages;
 
 class Client{
     private static Socket cs;
@@ -18,16 +19,53 @@ class Client{
     private static boolean status;
     private static boolean menuStatus;
 
-    private static void setupLogin(String username, String password){
+    private static boolean setupLogin(String username, String password){
+        String loginMessage = Messages.generateLoginMessage(username, password);
+        try{
+            dos.writeUTF(loginMessage);
+            dos.flush();
+
+            int result = dis.readInt();
+            return result == 1; // Retorna o valor em boolean (recebido como inteiro a partir do socket)
+        }
+        catch(IOException e){
+            System.out.println("Error sending login request");
+        }
+        return false;
     }
 
-    private static void setupSignUp(String username, String password){
+    private static boolean setupSignUp(String username, String password){
+        String signupMessage = Messages.generateSignupMessage(username, password);
+        try{
+            dos.writeUTF(signupMessage);
+            dos.flush();
+
+            int result = dis.readInt();
+            return result == 1; // Retorna o valor em boolean (recebido como inteiro a partir do socket)
+        }
+        catch(IOException e){
+            System.out.println("Error sending signup request");
+        }
+        return false;
     }
 
-    private static void setupLogout(){
+    private static boolean setupLogout(){
+        String logoutMessage = Messages.generateLogoutMessage();
+        try{
+            dos.writeUTF(logoutMessage);
+            dos.flush();
+
+            int result = dis.readInt();
+            return result == 1; // Retorna o valor em boolean (recebido como inteiro a partir do socket)
+        }
+        catch(IOException e){
+            System.out.println("Error sending logout request");
+        }
+        return false;
     }
 
-    private static void setupExecute(){
+    private static int setupExecute(){
+        return 0;
     }
 
     private static void mainMenu(){
@@ -37,10 +75,14 @@ class Client{
             String option = s.nextLine();
 
             if(option.equals("1")){
-                setupExecute();
+                int taskID = setupExecute(); // Get the data
+                System.out.println("Submitted task " + taskID + ".");
             }
             else if(option.equals("2")){
-                setupLogout();
+                if(!setupLogout()){ // Caso para se o logout der erro, fecha a conexão e força o servidor a parar o worker associado
+                    System.out.println("Error trying to logout, the program will close...");
+                    status = false;
+                }
                 menuStatus = false;
             }
             else{
@@ -67,7 +109,11 @@ class Client{
                 System.out.println("Password:");
                 String password = s.nextLine();
 
-                setupLogin(username, password); // TODO: This
+                if(setupLogin(username, password)){
+                    System.out.println("Logado na conta " + username);
+                    
+                    mainMenu();
+                }
             }
             else if(option.equals("2")){
                 System.out.println("Username:");
@@ -76,7 +122,8 @@ class Client{
                 System.out.println("Password:");
                 String password = s.nextLine();
 
-                setupSignUp(username, password); // TODO: This
+                if(setupSignUp(username, password)) System.out.println("Account created successfully\n");
+                else System.out.println("There was an error creating your account\n");
             }
             else{
                 status = false;

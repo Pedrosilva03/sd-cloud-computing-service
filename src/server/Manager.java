@@ -81,4 +81,8 @@ public class Manager {
 
         return true;
     }
+
+    public String getQueue(){
+        return new String();
+    }
 }
