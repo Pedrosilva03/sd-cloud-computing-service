@@ -40,15 +40,20 @@ public class Handler implements Runnable{
                 }
                 else if(requestSplit[0].equals(Utils.LOGIN)){
                     boolean out = manager.loginUser(requestSplit[1], requestSplit[2]);
-                    if(out) dos.writeInt(1);
+                    if(out){
+                        // TODO: Get user here
+                        dos.writeInt(1);
+                    }
                     else dos.writeInt(0);
                     dos.flush();
                 }
                 else if(requestSplit[0].equals(Utils.LOGOUT)){
-                    
+                    this.loggedUser = null;
+                    dos.writeInt(1);
+                    dos.flush();
                 }
                 else if(requestSplit[0].equals(Utils.QUEUE)){
-                    
+
                 }
                 else if(requestSplit[0].equals(Utils.SIGNIN)){
                     boolean out = manager.signUpUser(requestSplit[1], requestSplit[2]);

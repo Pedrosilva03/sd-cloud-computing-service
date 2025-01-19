@@ -69,9 +69,9 @@ class Client{
     }
 
     private static void mainMenu(){
-        System.out.println(Utils.mainMenu);
         menuStatus = true;
         while(menuStatus){
+            System.out.println(Utils.mainMenu);
             String option = s.nextLine();
 
             if(option.equals("1")){
@@ -98,8 +98,8 @@ class Client{
     }
 
     private static void loginMenu(){
-        System.out.println(Utils.loginMenu);
         while(status){
+            System.out.println(Utils.loginMenu);
             String option = s.nextLine();
 
             if(option.equals("1")){
@@ -150,6 +150,9 @@ class Client{
 
     private static void closeClient(){
         try{
+            dos.writeUTF("EXIT");
+            dos.flush();
+            
             s.close();
 
             dis.close();

@@ -15,25 +15,28 @@ public class Utils {
 
     // Client utils
     public static final String mainIntro = """
-            Welcome!
+        ---------------------------------------------
+        Welcome!
 
-            This a system for task execution on the cloud. This system allows the users to send tasks to be executed on a server,
-            with the result being recieved and written on a file. This file will have the same ID as the one recieved after sending the task.
-            """;
+        This a system for task execution on the cloud. This system allows the users to send tasks to be executed on a server,
+        with the result being recieved and written on a file. This file will have the same ID as the one recieved after sending the task.
+        """;
 
     public static final String loginMenu = """
-                Login menu
-                1- Login
-                2- SignUp
-                3- Exit
-                """;
+        ---------------------------------------------
+        Login menu
+        1- Login
+        2- SignUp
+        3- Exit
+        """;
 
     public static final String mainMenu = """
-    Login menu
-    1- Execute program
-    2- Logout
-    3- Exit
-    """;
+        ---------------------------------------------
+        Login menu
+        1- Execute program
+        2- Logout
+        3- Exit
+        """;
 
     // Server utils
 
