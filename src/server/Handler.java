@@ -41,7 +41,7 @@ public class Handler implements Runnable{
                 else if(requestSplit[0].equals(Utils.LOGIN)){
                     boolean out = manager.loginUser(requestSplit[1], requestSplit[2]);
                     if(out){
-                        // TODO: Get user here
+                        loggedUser = manager.getUser(requestSplit[1]);
                         dos.writeInt(1);
                     }
                     else dos.writeInt(0);

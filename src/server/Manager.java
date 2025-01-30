@@ -82,6 +82,13 @@ public class Manager {
         return true;
     }
 
+    public User getUser(String username){
+        for(Entry<Integer, User> user: this.users.entrySet()){
+            if(user.getValue().getUsername().equals(username)) return user.getValue();
+        }
+        return null;
+    }
+
     public String getQueue(){
         return new String();
     }

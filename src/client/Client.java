@@ -150,7 +150,7 @@ class Client{
 
     private static void closeClient(){
         try{
-            dos.writeUTF("EXIT");
+            dos.writeUTF("EXIT"); // Specific message to stop the dedicated server worker
             dos.flush();
             
             s.close();
