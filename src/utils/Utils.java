@@ -1,5 +1,7 @@
 package utils;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Random;
 
 public class Utils {
@@ -12,6 +14,26 @@ public class Utils {
     public static final String SIGNIN = "SIGNIN";
     public static final String EXECUTE = "EXECUTE";
     public static final String QUEUE = "QUEUE";
+
+    public static final String PROGRAM_PATH = "programs/";
+
+    private static Random randomGen = new Random();
+
+    public static int generateRandomNumber(int min, int max){
+        return min + randomGen.nextInt(max - min + 1);
+    }
+
+    public static byte[] readDataFromFile(String file){
+        File programFile = new File(file);
+        long fileSize = programFile.length();
+
+        FileInputStream programFileStream = new FileInputStream(programFile);
+        byte[] programFileData = new byte[(int)fileSize];
+        int bytesRead;
+        while((bytesRead = programFileStream.read(programFileData)) != -1);
+
+        return programFileData;
+    }
 
     // Client utils
     public static final String mainIntro = """
@@ -39,10 +61,4 @@ public class Utils {
         """;
 
     // Server utils
-
-    private static Random randomGen = new Random();
-
-    public static int generateRandomNumber(int min, int max){
-        return min + randomGen.nextInt(max - min + 1);
-    }
 }

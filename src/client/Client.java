@@ -64,8 +64,25 @@ class Client{
         return false;
     }
 
-    private static int setupExecute(){
-        return 0;
+    private static int setupExecute(String program){
+        int taskID = 0;
+        try{
+            byte[] programData = Utils.readDataFromFile(Utils.PROGRAM_PATH + program);
+
+            System.out.println("Executable parsed successfully with " + programData.length + " bytes.");
+            return 1;
+
+            //dos.write(programData);
+            //dos.flush();
+
+            //taskID = dis.readInt();
+            //return taskID;
+        }
+        finally{}
+        //catch(IOException e){
+            //System.out.println("Error sending the program to execution...");
+            //return taskID;
+        //}
     }
 
     private static void mainMenu(){
@@ -75,8 +92,11 @@ class Client{
             String option = s.nextLine();
 
             if(option.equals("1")){
-                int taskID = setupExecute(); // Get the data
-                System.out.println("Submitted task " + taskID + ".");
+                System.out.println("What program do you wish to execute?");
+                String program = s.nextLine();
+
+                int taskID = setupExecute(program); // TODO: This
+                if(taskID != 0) System.out.println("Submitted task " + taskID + ".");
             }
             else if(option.equals("2")){
                 if(!setupLogout()){ // Caso para se o logout der erro, fecha a conexão e força o servidor a parar o worker associado
