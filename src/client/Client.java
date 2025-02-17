@@ -69,26 +69,22 @@ class Client{
         try{
             byte[] programData = Utils.readDataFromFile(Utils.PROGRAM_PATH + program);
 
-            System.out.println("Executable parsed successfully with " + programData.length + " bytes.");
-            return 1;
+            dos.write(programData);
+            dos.flush();
 
-            //dos.write(programData);
-            //dos.flush();
-
-            //taskID = dis.readInt();
-            //return taskID;
+            taskID = dis.readInt();
+            return taskID;
         }
-        finally{}
-        //catch(IOException e){
-            //System.out.println("Error sending the program to execution...");
-            //return taskID;
-        //}
+        catch(IOException e){
+            System.out.println("Error sending the program to execution...");
+            return 0;
+        }
     }
 
     private static void mainMenu(){
         menuStatus = true;
         while(menuStatus){
-            System.out.println(Utils.mainMenu);
+            System.out.println(Utils.generateMainMenu());
             String option = s.nextLine();
 
             if(option.equals("1")){
@@ -97,6 +93,7 @@ class Client{
 
                 int taskID = setupExecute(program); // TODO: This
                 if(taskID != 0) System.out.println("Submitted task " + taskID + ".");
+                else System.out.println("There was an error fetching the program. Nothing was sent...");
             }
             else if(option.equals("2")){
                 if(!setupLogout()){ // Caso para se o logout der erro, fecha a conexão e força o servidor a parar o worker associado
@@ -114,12 +111,12 @@ class Client{
     }
 
     private static void introMenu(){
-        System.out.println(Utils.mainIntro);
+        System.out.println(Utils.generateMainIntro());
     }
 
     private static void loginMenu(){
         while(status){
-            System.out.println(Utils.loginMenu);
+            System.out.println(Utils.generateLoginMenu());
             String option = s.nextLine();
 
             if(option.equals("1")){

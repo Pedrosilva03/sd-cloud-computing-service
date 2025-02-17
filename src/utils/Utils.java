@@ -2,6 +2,7 @@ package utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Random;
 
 public class Utils {
@@ -23,7 +24,7 @@ public class Utils {
         return min + randomGen.nextInt(max - min + 1);
     }
 
-    public static byte[] readDataFromFile(String file){
+    public static byte[] readDataFromFile(String file) throws IOException{
         File programFile = new File(file);
         long fileSize = programFile.length();
 
@@ -36,29 +37,28 @@ public class Utils {
     }
 
     // Client utils
-    public static final String mainIntro = """
-        ---------------------------------------------
-        Welcome!
+    public static String generateMainIntro() {
+        return "---------------------------------------------\n" +
+               "Welcome!\n\n" +
+               "This is a system for task execution on the cloud. This system allows the users to send tasks to be executed on a server,\n" +
+               "with the result being received and written on a file. This file will have the same ID as the one received after sending the task.\n";
+    }
 
-        This a system for task execution on the cloud. This system allows the users to send tasks to be executed on a server,
-        with the result being recieved and written on a file. This file will have the same ID as the one recieved after sending the task.
-        """;
+    public static String generateLoginMenu() {
+        return "---------------------------------------------\n" +
+               "Login menu\n" +
+               "1- Login\n" +
+               "2- SignUp\n" +
+               "3- Exit\n";
+    }
 
-    public static final String loginMenu = """
-        ---------------------------------------------
-        Login menu
-        1- Login
-        2- SignUp
-        3- Exit
-        """;
-
-    public static final String mainMenu = """
-        ---------------------------------------------
-        Login menu
-        1- Execute program
-        2- Logout
-        3- Exit
-        """;
+    public static String generateMainMenu() {
+        return "---------------------------------------------\n" +
+               "Login menu\n" +
+               "1- Execute program\n" +
+               "2- Logout\n" +
+               "3- Exit\n";
+    }
 
     // Server utils
 }
