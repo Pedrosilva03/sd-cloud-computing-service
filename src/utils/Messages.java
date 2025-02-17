@@ -33,12 +33,10 @@ public class Messages {
         return sb.toString();
     }
 
-    public static String generateExecuteMessage(byte[] data){
+    public static String generateExecuteMessage(){
         StringBuilder sb = new StringBuilder();
 
         sb.append(Utils.EXECUTE);
-        sb.append(" ");
-        sb.append(data);
 
         return sb.toString();
     }

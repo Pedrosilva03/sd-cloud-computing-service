@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 
+import java.nio.file.Paths;
+import java.nio.file.Files;
+
 public class Utils {
     // Generic utils
     public static final int DEFAULT_PORT = 1109; // Porta a que o servidor se conecta por predefinição
@@ -25,15 +28,7 @@ public class Utils {
     }
 
     public static byte[] readDataFromFile(String file) throws IOException{
-        File programFile = new File(file);
-        long fileSize = programFile.length();
-
-        FileInputStream programFileStream = new FileInputStream(programFile);
-        byte[] programFileData = new byte[(int)fileSize];
-        int bytesRead;
-        while((bytesRead = programFileStream.read(programFileData)) != -1);
-
-        return programFileData;
+        return Files.readAllBytes(Paths.get(file));
     }
 
     // Client utils

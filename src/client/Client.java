@@ -66,8 +66,15 @@ class Client{
 
     private static int setupExecute(String program){
         int taskID = 0;
+        String executionMessage = Messages.generateExecuteMessage();
         try{
             byte[] programData = Utils.readDataFromFile(Utils.PROGRAM_PATH + program);
+
+            dos.writeUTF(executionMessage);
+            dos.flush();
+
+            dos.writeInt(programData.length);
+            dos.flush();
 
             dos.write(programData);
             dos.flush();
