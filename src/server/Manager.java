@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import utils.*;
+import sd23.*;
 
 public class Manager {
     private int max_mem;
@@ -80,6 +81,10 @@ public class Manager {
         }
 
         return true;
+    }
+
+    public byte[] execTask(Task t){
+        return null;
     }
 
     public User getUser(String username){

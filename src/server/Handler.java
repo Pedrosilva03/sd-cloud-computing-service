@@ -49,8 +49,29 @@ public class Handler implements Runnable{
         int size = dis.readInt();
         byte[] programData = new byte[size];
         dis.readFully(programData);
+        int memory = dis.readInt();
 
-        // TODO: Send data to execution
+        // Generate ID for task
+        int taskID = Utils.generateRandomNumber(1, 100000);
+        Task t = new Task(taskID, loggedUser, programData, memory);
+
+        Thread worker = new Thread(() -> {
+            byte[] res = this.manager.execTask(t);
+            try{
+                dos.writeInt(res.length);
+                dos.flush();
+
+                dos.write(programData);
+                dos.flush();
+            }
+            catch(IOException e){
+                System.out.println("Error sending task result for task " + t.getID());
+            }
+        });
+        //worker.start();
+
+        dos.writeInt(taskID);
+        dos.flush();
     }
 
     public void run(){

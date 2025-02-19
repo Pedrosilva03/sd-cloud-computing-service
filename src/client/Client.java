@@ -64,7 +64,7 @@ class Client{
         return false;
     }
 
-    private static int setupExecute(String program){
+    private static int setupExecute(String program, int memory){
         int taskID = 0;
         String executionMessage = Messages.generateExecuteMessage();
         try{
@@ -79,7 +79,12 @@ class Client{
             dos.write(programData);
             dos.flush();
 
+            dos.writeInt(memory);
+            dos.flush();
+
             taskID = dis.readInt();
+
+            // TODO: Uma thread que vai ficar à espera do resultado e vai escrever para um ficheiro
             return taskID;
         }
         catch(IOException e){
@@ -98,7 +103,10 @@ class Client{
                 System.out.println("What program do you wish to execute?");
                 String program = s.nextLine();
 
-                int taskID = setupExecute(program); // TODO: This
+                System.out.println("How much memory do you need to run the task?");
+                int memory = Integer.parseInt(s.nextLine());
+
+                int taskID = setupExecute(program, memory);
                 if(taskID != 0) System.out.println("Submitted task " + taskID + ".");
                 else System.out.println("There was an error fetching the program. Nothing was sent...");
             }
