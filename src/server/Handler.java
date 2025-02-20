@@ -56,7 +56,9 @@ public class Handler implements Runnable{
         Task t = new Task(taskID, loggedUser, programData, memory);
 
         Thread worker = new Thread(() -> {
-            byte[] res = this.manager.execTask(t);
+            //long time = System.currentTimeMillis();
+            byte[] res = this.manager.execTaskLobby(t);
+            //System.out.println("Task done in: " + (int)((System.currentTimeMillis() - time) / 1000) + " seconds");
             try{
                 dos.writeInt(res.length);
                 dos.flush();
@@ -68,7 +70,7 @@ public class Handler implements Runnable{
                 System.out.println("Error sending task result for task " + t.getID());
             }
         });
-        //worker.start();
+        worker.start();
 
         dos.writeInt(taskID);
         dos.flush();

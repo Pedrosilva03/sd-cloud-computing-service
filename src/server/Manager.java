@@ -9,25 +9,37 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 import utils.*;
 import sd23.*;
 
 public class Manager {
     private int max_mem;
+    private int usedMem;
 
     private String databasePath;
 
     private HashMap<Integer, User> users;
     private List<Task> queue;
+    private List<Task> inExec;
+
+    private ReentrantLock lock;
+    private Condition cond;
 
     public Manager(String databasePath) throws IOException{
         this.max_mem = Utils.MAX_MEM;
+        this.usedMem = 0;
 
         this.databasePath = databasePath;
 
         this.users = this.importUsers();
         this.queue = new ArrayList<>();
+        this.inExec = new ArrayList<>();
+
+        this.lock = new ReentrantLock();
+        this.cond = this.lock.newCondition();
     }
 
     public HashMap<Integer, User> importUsers() throws IOException{
@@ -83,8 +95,54 @@ public class Manager {
         return true;
     }
 
+    public void allocateMem(int mem){
+        this.usedMem += mem;
+    }
+
+    public void freeMem(int mem){
+        this.lock.lock();
+        this.usedMem -= mem;
+        this.cond.signalAll();
+        this.lock.unlock();
+    }
+
     public byte[] execTask(Task t){
-        return null;
+        try{
+            this.inExec.add(t);
+
+            byte[] res = JobFunction.execute(t.getData());
+
+            this.inExec.remove(t);
+
+            this.freeMem(t.getMemory());
+
+            return res;
+        }
+        catch(JobFunctionException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public byte[] execTaskLobby(Task t){
+        this.lock.lock();
+        try{
+            this.queue.add(t);
+            while(!(this.usedMem + t.getMemory() <= this.max_mem)){
+                this.cond.await();
+            }
+
+            this.allocateMem(t.getMemory());
+            this.queue.remove(t);
+        }
+        catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
+        finally{
+            this.lock.unlock();
+        }
+
+        return this.execTask(t);
     }
 
     public User getUser(String username){
