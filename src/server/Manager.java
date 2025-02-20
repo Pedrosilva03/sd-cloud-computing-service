@@ -172,6 +172,8 @@ public class Manager {
             sb.append("IN EXECUTION\n");
         }
 
+        sb.append("MEMORY AVAILABLE: " + (this.max_mem - this.usedMem));
+
         return sb.toString();
     }
 }
