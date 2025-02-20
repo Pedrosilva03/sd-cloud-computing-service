@@ -51,8 +51,9 @@ public class Utils {
         return "---------------------------------------------\n" +
                "Login menu\n" +
                "1- Execute program\n" +
-               "2- Logout\n" +
-               "3- Exit\n";
+               "2- Service Status\n" +
+               "3- Logout\n" +
+               "4- Exit\n";
     }
 
     // Server utils

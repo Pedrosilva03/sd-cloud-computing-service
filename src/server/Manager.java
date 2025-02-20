@@ -153,6 +153,24 @@ public class Manager {
     }
 
     public String getQueue(){
-        return new String();
+        StringBuilder sb = new StringBuilder();
+
+        for(Task t: this.queue){
+            sb.append(t.getID());
+            sb.append(" ------ ");
+            sb.append(t.getUser().getUsername());
+            sb.append(" ------ ");
+            sb.append("IN QUEUE\n");
+        }
+
+        for(Task t: this.inExec){
+            sb.append(t.getID());
+            sb.append(" ------ ");
+            sb.append(t.getUser().getUsername());
+            sb.append(" ------ ");
+            sb.append("IN EXECUTION\n");
+        }
+
+        return sb.toString();
     }
 }

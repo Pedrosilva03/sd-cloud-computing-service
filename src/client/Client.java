@@ -93,6 +93,19 @@ class Client{
         }
     }
 
+    private static void getServiceStatus(){
+        String queueMessage = Messages.generateQueueMessage();
+        try{
+            dos.writeUTF(queueMessage);
+
+            System.out.println(dis.readUTF());
+        }
+        catch(IOException e){
+            System.out.println("Error sending queue request");
+        }
+
+    }
+
     private static void mainMenu(){
         menuStatus = true;
         while(menuStatus){
@@ -111,6 +124,9 @@ class Client{
                 else System.out.println("There was an error fetching the program. Nothing was sent...");
             }
             else if(option.equals("2")){
+                getServiceStatus();
+            }
+            else if(option.equals("3")){
                 if(!setupLogout()){ // Caso para se o logout der erro, fecha a conexão e força o servidor a parar o worker associado
                     System.out.println("Error trying to logout, the program will close...");
                     status = false;

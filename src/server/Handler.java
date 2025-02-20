@@ -95,7 +95,8 @@ public class Handler implements Runnable{
                     dos.flush();
                 }
                 else if(requestSplit[0].equals(Utils.QUEUE)){
-
+                    dos.writeUTF(this.manager.getQueue());
+                    dos.flush();
                 }
                 else if(requestSplit[0].equals(Utils.SIGNIN)){
                     this.handleSignIn(requestSplit[1], requestSplit[2]);
