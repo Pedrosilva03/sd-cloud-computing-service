@@ -19,6 +19,8 @@ class Client{
     private static boolean status;
     private static boolean menuStatus;
 
+    private static Receiver receiver;
+
     private static boolean setupLogin(String username, String password){
         String loginMessage = Messages.generateLoginMessage(username, password);
         try{
@@ -84,7 +86,6 @@ class Client{
 
             taskID = dis.readInt();
 
-            // TODO: Uma thread que vai ficar à espera do resultado e vai escrever para um ficheiro
             return taskID;
         }
         catch(IOException e){
@@ -207,6 +208,8 @@ class Client{
             dos.close();
             cs.close();
 
+            receiver.stop();
+
             System.exit(0);
         }
         catch(IOException | NullPointerException closeException) {
@@ -219,6 +222,7 @@ class Client{
         try{
             cs = new Socket("localhost", Utils.DEFAULT_PORT);
             initClient();
+            new Thread((receiver = new Receiver(dis))).start();
 
             loginMenu(); // The program is going to stay here until receives a signal to exit. Allows to switch accounts.
 

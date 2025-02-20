@@ -155,6 +155,7 @@ public class Manager {
     public String getQueue(){
         StringBuilder sb = new StringBuilder();
 
+        sb.append("QUEUE:\n");
         for(Task t: this.queue){
             sb.append(t.getID());
             sb.append(" ------ ");
@@ -163,6 +164,7 @@ public class Manager {
             sb.append("IN QUEUE\n");
         }
 
+        sb.append("IN EXECUTION:\n");
         for(Task t: this.inExec){
             sb.append(t.getID());
             sb.append(" ------ ");

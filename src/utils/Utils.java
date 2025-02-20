@@ -2,6 +2,7 @@ package utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -20,6 +21,7 @@ public class Utils {
     public static final String QUEUE = "QUEUE";
 
     public static final String PROGRAM_PATH = "programs/";
+    public static final String RESULTS_PATH = "results/";
 
     private static Random randomGen = new Random();
 
@@ -29,6 +31,12 @@ public class Utils {
 
     public static byte[] readDataFromFile(String file) throws IOException{
         return Files.readAllBytes(Paths.get(file));
+    }
+
+    public static void writeDataFromFile(String file, byte[] data) throws IOException{
+        FileOutputStream fos = new FileOutputStream(file);
+        fos.write(data);
+        fos.close();
     }
 
     // Client utils
