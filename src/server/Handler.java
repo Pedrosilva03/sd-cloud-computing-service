@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Base64;
 
 import utils.*;
 
@@ -32,16 +33,16 @@ public class Handler implements Runnable{
         boolean out = manager.loginUser(username, password);
         if(out){
             loggedUser = manager.getUser(username);
-            dos.writeInt(1);
+            dos.writeUTF("1");
         }
-        else dos.writeInt(0);
+        else dos.writeUTF("0");
         dos.flush();
     }
 
     private void handleSignIn(String username, String password) throws IOException{
         boolean out = manager.signUpUser(username, password);
-        if(out) dos.writeInt(1);
-        else dos.writeInt(0);
+        if(out) dos.writeUTF("1");
+        else dos.writeUTF("0");
         dos.flush();
     }
 
@@ -56,14 +57,9 @@ public class Handler implements Runnable{
         Task t = new Task(taskID, loggedUser, programData, memory);
 
         Thread worker = new Thread(() -> {
-            //long time = System.currentTimeMillis();
             byte[] res = this.manager.execTaskLobby(t);
-            //System.out.println("Task done in: " + (int)((System.currentTimeMillis() - time) / 1000) + " seconds");
             try{
-                dos.writeInt(res.length);
-                dos.flush();
-
-                dos.write(programData);
+                dos.writeUTF("RESULT: " + t.getID() + " " + Base64.getEncoder().encodeToString(res));
                 dos.flush();
             }
             catch(IOException e){
@@ -72,7 +68,7 @@ public class Handler implements Runnable{
         });
         worker.start();
 
-        dos.writeInt(taskID);
+        dos.writeUTF(String.valueOf(taskID));
         dos.flush();
     }
 
@@ -91,7 +87,7 @@ public class Handler implements Runnable{
                 }
                 else if(requestSplit[0].equals(Utils.LOGOUT)){
                     this.loggedUser = null;
-                    dos.writeInt(1);
+                    dos.writeUTF("1");
                     dos.flush();
                 }
                 else if(requestSplit[0].equals(Utils.QUEUE)){

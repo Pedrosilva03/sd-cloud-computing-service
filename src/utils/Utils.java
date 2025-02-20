@@ -1,11 +1,13 @@
 package utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
-
+import java.util.zip.GZIPInputStream;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 
@@ -35,7 +37,18 @@ public class Utils {
 
     public static void writeDataFromFile(String file, byte[] data) throws IOException{
         FileOutputStream fos = new FileOutputStream(file);
-        fos.write(data);
+
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        GZIPInputStream gzip = new GZIPInputStream(bais);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while((bytesRead = gzip.read(buffer)) != -1){
+            baos.write(buffer, 0, bytesRead);
+        }
+
+        fos.write(baos.toByteArray());
         fos.close();
     }
 

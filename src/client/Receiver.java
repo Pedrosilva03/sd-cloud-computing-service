@@ -17,6 +17,8 @@ public class Receiver implements Runnable{
     public Receiver(DataInputStream dis){
         this.responses = new LinkedBlockingQueue<>();
         this.dis = dis;
+
+        this.status = true;
     }
     
     public void run(){

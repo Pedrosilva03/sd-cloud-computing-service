@@ -119,8 +119,7 @@ public class Manager {
             return res;
         }
         catch(JobFunctionException e){
-            e.printStackTrace();
-            return null;
+            return e.getMessage().getBytes();
         }
     }
 

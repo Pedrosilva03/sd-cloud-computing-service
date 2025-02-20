@@ -27,7 +27,7 @@ class Client{
             dos.writeUTF(loginMessage);
             dos.flush();
 
-            int result = dis.readInt();
+            int result = Integer.parseInt(receiver.takeImmediateResult());
             return result == 1; // Retorna o valor em boolean (recebido como inteiro a partir do socket)
         }
         catch(IOException e){
@@ -42,7 +42,7 @@ class Client{
             dos.writeUTF(signupMessage);
             dos.flush();
 
-            int result = dis.readInt();
+            int result = Integer.parseInt(receiver.takeImmediateResult());
             return result == 1; // Retorna o valor em boolean (recebido como inteiro a partir do socket)
         }
         catch(IOException e){
@@ -57,7 +57,7 @@ class Client{
             dos.writeUTF(logoutMessage);
             dos.flush();
 
-            int result = dis.readInt();
+            int result = Integer.parseInt(receiver.takeImmediateResult());
             return result == 1; // Retorna o valor em boolean (recebido como inteiro a partir do socket)
         }
         catch(IOException e){
@@ -84,7 +84,7 @@ class Client{
             dos.writeInt(memory);
             dos.flush();
 
-            taskID = dis.readInt();
+            taskID = Integer.parseInt(receiver.takeImmediateResult());
 
             return taskID;
         }
@@ -99,7 +99,7 @@ class Client{
         try{
             dos.writeUTF(queueMessage);
 
-            System.out.println(dis.readUTF());
+            System.out.println(receiver.takeImmediateResult());
         }
         catch(IOException e){
             System.out.println("Error sending queue request");
